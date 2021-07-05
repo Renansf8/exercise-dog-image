@@ -5,13 +5,13 @@ class Section extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderDogImage = this.renderDogImage.bind(this);
-    this.saveDog = this.saveDog.bind(this);
+    this.fetchDog = this.fetchDog.bind(this);
+    // this.saveDog = this.saveDog.bind(this);
 
     this.state = {
       dogImage: '',
-      loading: true,
-      dogObj: [],
+      // loading: true,
+      // dogObj: [],
     };
   }
 
@@ -19,7 +19,20 @@ class Section extends React.Component {
     this.fetchDog();
   }
 
-  async fetchDog() {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextState.dogImage.message.includes('terrier')) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // componentDidUpdate() {
+  //   localStorage.setItem("dogURL", this.state.data.message);
+  //   const dogBreed = this.state.data.message.split("/")[4];
+  //   alert(dogBreed);
+  // }
+
+  fetchDog() {
     this.setState(
       { loading: true },
       async () => {
@@ -33,33 +46,32 @@ class Section extends React.Component {
     );
   }
 
-  saveDog() {
-    this.setState(({ dogImage, dogObj }) => ({
-      dogObj: [...dogObj, dogImage],
-    }));
+  // saveDog() {
+  //   this.setState(({ dogImage, dogObj }) => ({
+  //     dogObj: [...dogObj, dogImage],
+  //   }));
 
-    this.fetchDog();
-  }
+  //   this.fetchDog();
+  // }
 
   renderDogImage() {
     const { dogImage } = this.state;
     return (
       <div className="image-container">
         <img src={ dogImage.message } alt="Dog" />
-        <button type="button" onClick={ this.saveDog }>Buscar mais um doguinho</button>
+        <button type="button" onClick={ this.fetchDog }>Buscar mais um doguinho</button>
       </div>
     );
   }
 
   render() {
-    const { loading, dogObj } = this.state;
+    const { loading } = this.state;
     const loadingElement = <span>Loading...</span>;
+
+    // if (this.state.dogImage === '') return 'loading...';
 
     return (
       <div className="image-container">
-        <span>
-          {dogObj.map((dog) => <img key={ dog.index } src={ dog.message } alt="dog" />)}
-        </span>
         {loading ? loadingElement : this.renderDogImage()}
       </div>
     );
